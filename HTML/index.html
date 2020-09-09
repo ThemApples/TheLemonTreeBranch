@@ -2,16 +2,25 @@
 <html>
 <head>
 	<title>The Lemon Tree Branch</title>
+	<meta charset="UTF-8">
 	<meta name = "viewport" content="width=device-width, inital-scale=1.0">
+	<link rel="stylesheet" href="CSS/style.css">
+	<script src="Js/papaparse.js"></script>
 </head>
 <body>
+	<center>
 	<div id="TheNav">
-	<input type="file" id="upload-csv" accept=".csv">
-	<button id ="btn-upload">Read CSV</button>
-	<button id ="conf" onclick=""> configure</button>
-		<div id="information">
-		</div>
+		<input type="file" id="upload-csv" accept=".csv">
+		<button id ="btn-upload">Read CSV</button>
+		<button id ="conf" onclick="writeData()"> configure</button>
 	</div>
+		<div id="information"></div>
+	</center>
+	
+
+	<div id="mySidenav" class="sidenav">
+	  <a class="closebtn" onclick="closeNav()">&times;</a>
+
 
 	<section class="timeline-area" id="timeline-area">
 		<div>
@@ -19,8 +28,65 @@
 			<h3>Date</h3>
 			<h4>Description and details</h4>
 		</div>
-	</section>
-	
+	</div>
+
+	<span style="font-size:30px;cursor:pointer;float: right;" onclick="openNav()">&#9776; Timeline</span>
+
+	<!--Used to read the csv file and allow html to interact with it-->
+	<script type="text/javascript">
+
+		var data;
+		var arr;
+		var using = [""];
+		var text = "";
+		
+		let btn_upload = document.getElementById('btn-upload').addEventListener('click',()=>{
+			Papa.parse(document.getElementById('upload-csv').files[0],{
+				download: true,
+				header: false,
+				complete: function(results){
+
+					data = results.data+'' ;
+					arr = data.split(",");
+					arr.splice(-1,1);
+					
+					var i;
+					for(i=0;i<arr.length;i+=3){
+						using.push(arr[i].concat(","+arr[i+1]).concat(","+arr[i+2]));
+					}
+					using.shift();
+				}
+			});
+		});
+		
+		//Used to write the data into a format that html can actually use and display
+		function writeData(){
+		var num_entry = 0;
+		var e;
+		var context = "";
+		var last_ent = using[28].split(",",2)[1];
+
+		for(let step =using.length-1; step >= 1; step--){
+			num_entry++;
+			console.log(step+":"+using[step]);
+			context += "<div><h2>"+using[step].split(",",1) + 
+			"</h2><h3>" + using[step].split(",",2)[1] + "<h3><h4>" + using[step].split(",",3)[2] +"</h4></div>";
+		}	
+
+		document.getElementById("timeline-area").innerHTML =context;
+		document.getElementById("information").innerHTML = "Information<br>Last Updated: " + last_ent +" <br>Amount Of Entries: " + num_entry;
+		}
+
+		function openNav() {
+		  document.getElementById("mySidenav").style.width = "550px";
+		}
+
+		function closeNav() {
+		  document.getElementById("mySidenav").style.width = "0";
+		}
+	</script>
+
+
 
 </body>
 </html>
