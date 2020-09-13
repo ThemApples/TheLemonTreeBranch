@@ -1,5 +1,10 @@
 body{
 	background: #f2b807;
+	height: 100%;
+	background: url("Background/bb.jpg");
+	background-size: 100% 100%;
+	background-attachment:fixed;
+	background-repeat: no-repeat; 
 }
 .timeline-area{
 	margin: 90px auto;
@@ -56,6 +61,7 @@ div h4{
 	margin: 0;
 	font-family: poppins;
 }
+
 .sidenav {
   width: 0;
   position: fixed;
@@ -98,12 +104,15 @@ div h4{
   background:white;
   height:100px;
   text-align: center;
+  width: 40%;
 }
 #information{
-	background: green;
 	height: 100px;
-	float:left;
-	width: 900px;
-	margin-left: 200px;
-	margin-top: 90px; 
+}
+.link{
+	position: fixed;
+	bottom: 10px;
+	right: 0px;
+	width: 250px;
+	background-color: #cf8;
 }
